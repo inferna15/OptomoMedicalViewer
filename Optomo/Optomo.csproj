@@ -1,0 +1,107 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\centerArrow.png" />
+    <None Remove="Assets\centerArrowBlue.png" />
+    <None Remove="Assets\close.png" />
+    <None Remove="Assets\downArrow.png" />
+    <None Remove="Assets\downArrowBlue.png" />
+    <None Remove="Assets\leftArrow.png" />
+    <None Remove="Assets\leftArrowBlue.png" />
+    <None Remove="Assets\maximize.png" />
+    <None Remove="Assets\minimize.png" />
+    <None Remove="Assets\minimize2.png" />
+    <None Remove="Assets\minuse.png" />
+    <None Remove="Assets\minuseBlue.png" />
+    <None Remove="Assets\plus.png" />
+    <None Remove="Assets\plusBlue.png" />
+    <None Remove="Assets\reset.png" />
+    <None Remove="Assets\rightArrow.png" />
+    <None Remove="Assets\rightArrowBlue.png" />
+    <None Remove="Assets\upArrow.png" />
+    <None Remove="Assets\upArrowBlue.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\centerArrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\centerArrowBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\close.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\downArrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\downArrowBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\leftArrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\leftArrowBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\maximize.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\minimize.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\minimize2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\minuse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\minuseBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\plus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\plusBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\reset.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\rightArrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\rightArrowBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\upArrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\upArrowBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kitware.VTK" Version="9.3.2024.515" />
+    <PackageReference Include="Kitware.WPFControls" Version="9.3.2024.515" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Kitware.mummy.Runtime">
+      <HintPath>..\..\..\..\..\..\Program Files\ActiViz.NET 9.3.2024 Trial Edition\bin\Kitware.mummy.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Kitware.VTK">
+      <HintPath>..\..\..\..\..\..\Program Files\ActiViz.NET 9.3.2024 Trial Edition\bin\Kitware.VTK.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

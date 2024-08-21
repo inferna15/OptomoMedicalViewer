@@ -1,0 +1,466 @@
+﻿<Window x:Class="Optomo.TouchScreenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Optomo"
+        mc:Ignorable="d"
+        Title="TouchScreenWindow" Height="450" Width="800" WindowStyle="None" WindowState="Maximized">
+    <Window.Resources>
+        <!-- Buton stili -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Style.Triggers>
+                <!-- Hover tetikleyicilerini kaldırmak için boş bir tetikleyici ayarlayın -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#212529">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        
+        <!--#region Pencere Tuşları -->
+        <StackPanel Grid.Row="0" Grid.Column="4">
+            <Button x:Name="minimizeBtn" Background="#4f7492" Click="minimizeBtn_Click">
+                <Image Source="Assets/minimize2.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="closeBtn" Background="#4f7492" Click="closeBtn_Click">
+                <Image Source="Assets/close.png" Stretch="Uniform"/>
+            </Button>
+        </StackPanel>
+        <!--#endregion-->
+        
+        <!--#region Panel Tuşları-->
+        <Grid x:Name="TransversalGrid" Grid.Row="0" Grid.Column="0" Margin="20" Background="#4f7492">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="TransversalMax"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Background="Transparent" 
+                    BorderBrush="Transparent" 
+                    BorderThickness="0"
+                    Foreground="White"
+                    Click="TransversalMax_Click">
+                <Image x:Name="YMax" Source="Assets/maximize.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="Transversal" 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="Transversal" 
+                    Background="Transparent" 
+                    BorderBrush="Transparent" 
+                    BorderThickness="0"
+                    Foreground="White"
+                    FontSize="32"
+                    Click="Transversal_Click"/>
+        </Grid>
+
+        <Grid x:Name="SagittalGrid" Grid.Row="0" Grid.Column="1" Margin="20" Background="#4f7492">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="SagittalMax"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Background="Transparent" 
+                    BorderBrush="Transparent" 
+                    BorderThickness="0"
+                    Foreground="White"
+                    Click="SagittalMax_Click">
+                <Image x:Name="XMax" Source="Assets/maximize.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="Sagittal" 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="Sagittal" 
+                    Background="Transparent" 
+                    BorderBrush="Transparent" 
+                    BorderThickness="0"
+                    Foreground="White"
+                    FontSize="32"
+                    Click="Sagittal_Click"/>
+        </Grid>
+
+        <Grid x:Name="CoronalGrid" Grid.Row="1" Grid.Column="0" Margin="20" Background="#4f7492">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="CoronalMax"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Background="Transparent" 
+                    BorderBrush="Transparent" 
+                    BorderThickness="0"
+                    Foreground="White"
+                    Click="CoronalMax_Click">
+                <Image x:Name="ZMax" Source="Assets/maximize.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="Coronal" 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="Coronal" 
+                    Background="Transparent" 
+                    BorderBrush="Transparent" 
+                    BorderThickness="0"
+                    Foreground="White"
+                    FontSize="32"
+                    Click="Coronal_Click"/>
+        </Grid>
+
+        <Grid x:Name="D3ViewGrid" Grid.Row="1" Grid.Column="1" Margin="20" Background="#4f7492">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="D3ViewMax"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Background="Transparent" 
+                    BorderBrush="Transparent" 
+                    BorderThickness="0"
+                    Foreground="White"
+                    Click="D3ViewMax_Click">
+                <Image x:Name="TMax" Source="Assets/maximize.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="D3View" 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="3D View" 
+                    Background="Transparent" 
+                    BorderBrush="Transparent" 
+                    BorderThickness="0"
+                    Foreground="White"
+                    FontSize="32"
+                    Click="D3View_Click"/>
+        </Grid>
+        <!--#endregion-->
+        
+        <!--#region Kontrol Paneli -->
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="20" Background="#4f7492">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!-- Layer Panel --> 
+            <Grid Grid.Row="0" Grid.Column="0" Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="layerUp"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="0"
+                        Click="layerUp_Click">
+                    <Image Source="Assets/upArrow.png" Stretch="Uniform" Name="layerUpimg"/>
+                </Button>
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           FontSize="32"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <Run x:Name="layerNum"/>
+                    <LineBreak/>
+                    <Run x:Name="layerCur"/>
+                </TextBlock>
+
+                <Button x:Name="layerDown"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="layerDown_Click">
+                    <Image Source="Assets/downArrow.png" Stretch="Uniform" Name="layerDownimg"/>
+                </Button>
+            </Grid>
+
+            <!-- Motion Panel -->
+            <Grid Grid.Row="0" Grid.Column="2" Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="motionUp"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="0"
+                        Click="motionUp_Click">
+                    <Image Source="Assets/upArrow.png" Stretch="Uniform" Name="motionUpimg"/>
+                </Button>
+                <Button x:Name="motionDown"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="0"
+                        Click="motionDown_Click">
+                    <Image Source="Assets/downArrow.png" Stretch="Uniform" Name="motionDownimg"/>
+                </Button>
+                <Button x:Name="motionLeft"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="0"
+                        Click="motionLeft_Click">
+                    <Image Source="Assets/leftArrow.png" Stretch="Uniform" Name="motionLeftimg"/>
+                </Button>
+                <Button x:Name="motionRight"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="0"
+                        Click="motionRight_Click">
+                    <Image Source="Assets/rightArrow.png" Stretch="Uniform" Name="motionRightimg"/>
+                </Button>
+                <Button Grid.Row="1"
+                        Grid.Column="1"
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="0">
+                    <Image Source="Assets/centerArrow.png" Stretch="Uniform" Name="centerimg"/>
+                </Button>
+            </Grid>
+            
+            <!-- Zoom Panel -->
+            <Grid Grid.Row="0" Grid.Column="4" Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="zoomDown"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="0"
+                        Click="zoomDown_Click">
+                    <Image Source="Assets/minuse.png" Stretch="Uniform" x:Name="zoomDownimg"/>
+                </Button>
+                <Button x:Name="zoomUp"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="0"
+                        Click="zoomUp_Click">
+                    <Image Source="Assets/plus.png" Stretch="Uniform" x:Name="zoomUpimg"/>
+                </Button>
+                <Slider x:Name="zoomSlider"
+                        Grid.Row="0" 
+                        Grid.Column="1"
+                        Grid.RowSpan="3"
+                        Orientation="Vertical"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Center"
+                        Minimum="1"
+                        Maximum="10"
+                        Value="1"
+                        ValueChanged="zoomSlider_ValueChanged"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"/>
+            </Grid>
+            
+            <!-- Reset Button -->
+            <Grid Grid.Row="0" Grid.Column="6" Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="resetBtn"
+                        Grid.Row="1"
+                        Background="Transparent" 
+                        BorderBrush="White" 
+                        BorderThickness="2"
+                        Margin="15"
+                        Click="resetBtn_Click">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="Assets/reset.png" Width="40" Height="40" Margin="0,0,10,0"/>
+                        <TextBlock VerticalAlignment="Center" FontSize="32" Foreground="White">Reset</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+            
+            <!-- Ayraçlar -->
+            <Border Grid.Row="0" Grid.Column="1" Margin="3,20" Background="#304557" CornerRadius="7"></Border>
+            <Border Grid.Row="0" Grid.Column="3" Margin="3,20" Background="#304557" CornerRadius="7"></Border>
+            <Border Grid.Row="0" Grid.Column="5" Margin="3,20" Background="#304557" CornerRadius="7"></Border>
+        </Grid>
+        <!--#endregion-->
+        
+        <!--#region WW/WL-->
+        <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Background="#4f7492" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="WW" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="32" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="WL" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="32" />
+            <Slider x:Name="WWSlider"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Orientation="Vertical"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Center"
+                    Margin="0,20"
+                    ValueChanged="WWSlider_ValueChanged"
+                    Maximum="300"
+                    Minimum="0"
+                    Value="0"
+                    TickFrequency="5"
+                    IsSnapToTickEnabled="True"/>
+            <Slider x:Name="WLSlider"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Orientation="Vertical"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Center"
+                    Margin="0,20"
+                    ValueChanged="WLSlider_ValueChanged"
+                    Maximum="300"
+                    Minimum="0"
+                    Value="0"
+                    TickFrequency="5"
+                    IsSnapToTickEnabled="True"/>
+        </Grid>
+        <!--#endregion-->
+        
+        <!--#region 3D Renk Seçenekleri -->
+        <Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Background="#4f7492" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button x:Name="color1"
+                    Grid.Row="0"
+                    Background="Transparent" 
+                    BorderBrush="White" 
+                    BorderThickness="2"
+                    Margin="15"
+                    Content="Default"
+                    Click="color1_Click"
+                    VerticalAlignment="Center" 
+                    FontSize="32" 
+                    Foreground="White"/>
+            <Button x:Name="color2"
+                    Grid.Row="1"
+                    Background="Transparent" 
+                    BorderBrush="White" 
+                    BorderThickness="2"
+                    Margin="15"
+                    Content="Hot"
+                    Click="color2_Click"
+                    VerticalAlignment="Center" 
+                    FontSize="32" 
+                    Foreground="White"/>
+            <Button x:Name="color3"
+                    Grid.Row="2"
+                    Background="Transparent" 
+                    BorderBrush="White" 
+                    BorderThickness="2"
+                    Margin="15"
+                    Content="Cool"
+                    Click="color3_Click"
+                    VerticalAlignment="Center" 
+                    FontSize="32" 
+                    Foreground="White"/>
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+</Window>
