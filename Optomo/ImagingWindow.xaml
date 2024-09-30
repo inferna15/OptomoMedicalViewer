@@ -7,7 +7,7 @@
         xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         xmlns:local="clr-namespace:Optomo"
         mc:Ignorable="d"
-        Title="ImagingWindow" Height="1080" Width="1920" WindowStyle="None">
+        Title="ImagingWindow" WindowStyle="None">
     <Grid x:Name="MainGrid" Background="Gray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

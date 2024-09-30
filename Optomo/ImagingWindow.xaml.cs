@@ -1,5 +1,6 @@
 ﻿using Kitware.VTK;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Optomo
 {
@@ -68,6 +69,7 @@ namespace Optomo
             Init2DAxesLines();
             Init3DAxesLines();
             InitAspectTexts();
+            SetPanels();
             RenderAll();
         }
 
@@ -106,8 +108,8 @@ namespace Optomo
 
                 vtkImageMapper mapper = new vtkImageMapper();
                 mapper.SetInputConnection(reslice.GetOutputPort());
-                mapper.SetColorWindow(1000);
-                mapper.SetColorLevel(500);
+                mapper.SetColorWindow(100);
+                mapper.SetColorLevel(50);
                 mappers[1] = mapper;
 
                 vtkActor2D actor = new vtkActor2D();
@@ -141,8 +143,8 @@ namespace Optomo
 
                 vtkImageMapper mapper = new vtkImageMapper();
                 mapper.SetInputConnection(reslice.GetOutputPort());
-                mapper.SetColorWindow(1000);
-                mapper.SetColorLevel(500);
+                mapper.SetColorWindow(100);
+                mapper.SetColorLevel(50);
                 mappers[0] = mapper;
 
                 vtkActor2D actor = new vtkActor2D();
@@ -176,8 +178,8 @@ namespace Optomo
 
                 vtkImageMapper mapper = new vtkImageMapper();
                 mapper.SetInputConnection(reslice.GetOutputPort());
-                mapper.SetColorWindow(1000);
-                mapper.SetColorLevel(500);
+                mapper.SetColorWindow(100);
+                mapper.SetColorLevel(50);
                 mappers[2] = mapper;
 
                 vtkActor2D actor = new vtkActor2D();
@@ -204,23 +206,32 @@ namespace Optomo
 
                 vtkColorTransferFunction volumeColor = new vtkColorTransferFunction();
                 volumeColor.AddRGBPoint(0, 0.0, 0.0, 1.0);
-                volumeColor.AddRGBPoint(128, 0.0, 1.0, 0.0);
-                volumeColor.AddRGBPoint(255, 1.0, 0.0, 0.0);
+                volumeColor.AddRGBPoint(200, 0.0, 1.0, 0.0);
+                volumeColor.AddRGBPoint(1000, 1.0, 0.0, 0.0);
                 color3D = volumeColor;
 
                 vtkPiecewiseFunction volumeOpacity = new vtkPiecewiseFunction();
                 volumeOpacity.AddPoint(0, 0.0);
-                volumeOpacity.AddPoint(128, 0.02);
-                volumeOpacity.AddPoint(192, 0.2);
-                volumeOpacity.AddPoint(255, 1.0);
+                volumeOpacity.AddPoint(100, 0.02);
+                volumeOpacity.AddPoint(200, 0.05);
+                volumeOpacity.AddPoint(1000, 0.2);
 
                 vtkVolumeProperty volumeProperty = new vtkVolumeProperty();
                 volumeProperty.SetColor(volumeColor);
                 volumeProperty.SetScalarOpacity(volumeOpacity);
+                volumeProperty.ShadeOn();
+                volumeProperty.SetInterpolationTypeToLinear();
+
+                // Işık ayarları
+                volumeProperty.SetSpecular(0.6);  // Yansıma seviyesi
+                volumeProperty.SetSpecularPower(30); // Yansımanın yoğunluğu
+                volumeProperty.SetAmbient(0.3);   // Ortam ışığı
+                volumeProperty.SetDiffuse(0.9);   // Dağılma oranı
 
                 vtkVolume volume = new vtkVolume();
                 volume.SetMapper(volumeMapper);
                 volume.SetProperty(volumeProperty);
+                
 
                 renderers[3] = new vtkRenderer();
                 renderers[3].AddVolume(volume);
@@ -515,8 +526,9 @@ namespace Optomo
         #region Araçlar
         public void SetPanels()
         {
-            width = YBorder.ActualWidth;
-            height = YBorder.ActualHeight;
+            double dpiScale = VisualTreeHelper.GetDpi(this).PixelsPerDip;
+            width = YBorder.ActualWidth * dpiScale;
+            height = YBorder.ActualHeight * dpiScale;
 
             oran[0] = height / (double)extent[3];
             reslices[0].SetOutputExtent((int)(motions[1] * oran[0] * zooms[0]) - (int)((zooms[0] - 1) * (width / 2)),
@@ -524,12 +536,14 @@ namespace Optomo
                 (int)(motions[2] * oran[0] * zooms[0]) - (int)((zooms[0] - 1) * (height / 2)), 
                 (int)(height + motions[2] * oran[0] * zooms[0]) + (int)((zooms[0] - 1) * (height / 2)), 0, 0);
             reslices[0].SetOutputSpacing(spacing[0] / oran[0] / zooms[0], spacing[1] / oran[0] / zooms[0], spacing[2] / oran[0] / zooms[0]);
+            
             oran[1] = height / (double)extent[5];
             reslices[1].SetOutputExtent((int)(motions[0] * oran[1] * zooms[1]) - (int)((zooms[1] - 1) * (width / 2)), 
                 (int)(width + motions[0] * oran[1] * zooms[1]) + (int)((zooms[1] - 1) * (width / 2)), 
                 (int)(motions[2] * oran[1] * zooms[1]) - (int)((zooms[1] - 1) * (height / 2)), 
                 (int)(height + motions[2] * oran[1] * zooms[1]) + (int)((zooms[1] - 1) * (height / 2)), 0, 0);
             reslices[1].SetOutputSpacing(spacing[0] / oran[1] / zooms[1], spacing[1] / oran[1] / zooms[1], spacing[2] / oran[1] / zooms[1]);
+            
             oran[2] = height / (double)extent[3];
             reslices[2].SetOutputExtent((int)(motions[0] * oran[2] * zooms[2]) - (int)((zooms[2] - 1) * (width / 2)), 
                 (int)(width + motions[0] * oran[2] * zooms[2]) + (int)((zooms[2] - 1) * (width / 2)), 

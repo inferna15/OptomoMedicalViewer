@@ -34,7 +34,7 @@ namespace Optomo
         public TouchScreenWindow()
         {
             InitializeComponent();
-            window = new ImagingWindow(this, "C:/Users/fatil/OneDrive/Belgeler/Dicoms/beyin");
+            window = new ImagingWindow(this, "C:/Users/Admin/Documents/Documents/Dicoms/beyin");
             window.Show();
             PositionWindowOnSecondMonitor(window);
             StartControl();
@@ -58,8 +58,6 @@ namespace Optomo
                 window1.Show();
 
                 // İkinci pencere için
-                this.WindowStyle = WindowStyle.None;
-                this.WindowState = WindowState.Maximized;
                 this.Left = screen2.WorkingArea.Left;
                 this.Top = screen2.WorkingArea.Top;
                 this.Width = screen2.WorkingArea.Width;

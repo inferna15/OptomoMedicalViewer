@@ -30,6 +30,28 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Style.Triggers>
+                <!-- Hover tetikleyicilerini kaldırmak için boş bir tetikleyici ayarlayın -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid Background="#212529">
         <Grid.RowDefinitions>
@@ -213,15 +235,19 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="layerUp"
+                
+                
+                
+                <RepeatButton x:Name="layerUp"
                         Grid.Row="0"
                         Grid.Column="1"
                         Background="Transparent" 
                         BorderBrush="Transparent" 
                         BorderThickness="0"
-                        Click="layerUp_Click">
+                        Click="layerUp_Click"
+                        Interval="100">
                     <Image Source="Assets/upArrow.png" Stretch="Uniform" Name="layerUpimg"/>
-                </Button>
+                </RepeatButton>
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
@@ -234,15 +260,16 @@
                     <Run x:Name="layerCur"/>
                 </TextBlock>
 
-                <Button x:Name="layerDown"
+                <RepeatButton x:Name="layerDown"
                         Grid.Row="2"
                         Grid.Column="1"
                         Background="Transparent"
                         BorderBrush="Transparent"
                         BorderThickness="0"
-                        Click="layerDown_Click">
+                        Click="layerDown_Click"
+                        Interval="100">
                     <Image Source="Assets/downArrow.png" Stretch="Uniform" Name="layerDownimg"/>
-                </Button>
+                </RepeatButton>
             </Grid>
 
             <!-- Motion Panel -->
@@ -257,49 +284,54 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Button x:Name="motionUp"
+                <RepeatButton x:Name="motionUp"
                         Grid.Row="0"
                         Grid.Column="1"
                         Background="Transparent" 
                         BorderBrush="Transparent" 
                         BorderThickness="0"
-                        Click="motionUp_Click">
+                        Click="motionUp_Click"
+                        Interval="100">
                     <Image Source="Assets/upArrow.png" Stretch="Uniform" Name="motionUpimg"/>
-                </Button>
-                <Button x:Name="motionDown"
+                </RepeatButton>
+                <RepeatButton x:Name="motionDown"
                         Grid.Row="2"
                         Grid.Column="1"
                         Background="Transparent" 
                         BorderBrush="Transparent" 
                         BorderThickness="0"
-                        Click="motionDown_Click">
+                        Click="motionDown_Click"
+                        Interval="100">
                     <Image Source="Assets/downArrow.png" Stretch="Uniform" Name="motionDownimg"/>
-                </Button>
-                <Button x:Name="motionLeft"
+                </RepeatButton>
+                <RepeatButton x:Name="motionLeft"
                         Grid.Row="1"
                         Grid.Column="0"
                         Background="Transparent" 
                         BorderBrush="Transparent" 
                         BorderThickness="0"
-                        Click="motionLeft_Click">
+                        Click="motionLeft_Click"
+                        Interval="100">
                     <Image Source="Assets/leftArrow.png" Stretch="Uniform" Name="motionLeftimg"/>
-                </Button>
-                <Button x:Name="motionRight"
+                </RepeatButton>
+                <RepeatButton x:Name="motionRight"
                         Grid.Row="1"
                         Grid.Column="2"
                         Background="Transparent" 
                         BorderBrush="Transparent" 
                         BorderThickness="0"
-                        Click="motionRight_Click">
+                        Click="motionRight_Click"
+                        Interval="100">
                     <Image Source="Assets/rightArrow.png" Stretch="Uniform" Name="motionRightimg"/>
-                </Button>
-                <Button Grid.Row="1"
+                </RepeatButton>
+                <RepeatButton Grid.Row="1"
                         Grid.Column="1"
                         Background="Transparent" 
                         BorderBrush="Transparent" 
-                        BorderThickness="0">
+                        BorderThickness="0"
+                        Interval="100">
                     <Image Source="Assets/centerArrow.png" Stretch="Uniform" Name="centerimg"/>
-                </Button>
+                </RepeatButton>
             </Grid>
             
             <!-- Zoom Panel -->
@@ -315,24 +347,26 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="zoomDown"
+                <RepeatButton x:Name="zoomDown"
                         Grid.Row="1"
                         Grid.Column="0"
                         Background="Transparent" 
                         BorderBrush="Transparent" 
                         BorderThickness="0"
-                        Click="zoomDown_Click">
+                        Click="zoomDown_Click"
+                        Interval="100">
                     <Image Source="Assets/minuse.png" Stretch="Uniform" x:Name="zoomDownimg"/>
-                </Button>
-                <Button x:Name="zoomUp"
+                </RepeatButton>
+                <RepeatButton x:Name="zoomUp"
                         Grid.Row="1"
                         Grid.Column="2"
                         Background="Transparent" 
                         BorderBrush="Transparent" 
                         BorderThickness="0"
-                        Click="zoomUp_Click">
+                        Click="zoomUp_Click"
+                        Interval="100">
                     <Image Source="Assets/plus.png" Stretch="Uniform" x:Name="zoomUpimg"/>
-                </Button>
+                </RepeatButton>
                 <Slider x:Name="zoomSlider"
                         Grid.Row="0" 
                         Grid.Column="1"
