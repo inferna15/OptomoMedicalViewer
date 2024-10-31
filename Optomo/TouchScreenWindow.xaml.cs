@@ -25,6 +25,7 @@ namespace Optomo
         public Panels panel = Panels.NONE;
         public State state = State.NOR;
         public bool isStart = false;
+        public bool isAppStart = false;
 
         SolidColorBrush green = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#304557"));
         SolidColorBrush blue = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4f7492"));
@@ -34,10 +35,11 @@ namespace Optomo
         public TouchScreenWindow()
         {
             InitializeComponent();
-            window = new ImagingWindow(this, "C:/Users/Admin/Documents/Documents/Dicoms/beyin");
-            window.Show();
-            PositionWindowOnSecondMonitor(window);
+            window = new ImagingWindow(this, "C:\\Users\\Admin\\Documents\\Documents\\Dicoms\\beyin");
+            //PositionWindowOnSecondMonitor(window);
             StartControl();
+            isAppStart = true;
+            window.Show();
         }
 
         private void PositionWindowOnSecondMonitor(Window window1)
@@ -578,7 +580,6 @@ namespace Optomo
                     layerCur.Text = window.layers[2].ToString();
                 }
             }
-            window.RenderAll();
         }
 
         private void layerDown_Click(object sender, RoutedEventArgs e)
@@ -607,7 +608,6 @@ namespace Optomo
                     layerCur.Text = window.layers[2].ToString();
                 }
             }
-            window.RenderAll();
         }
         #endregion
 
@@ -731,9 +731,6 @@ namespace Optomo
                 window.zooms[i] = 1;
                 window.motions[i] = 0;
                 window.layers[i] = window.extent[i * 2 + 1] / 2;
-                window.camera3D.SetPosition(window.cameraPos[0], window.cameraPos[1], window.cameraPos[2]);
-                window.camera3D.SetFocalPoint(window.cameraFoc[0], window.cameraFoc[1], window.cameraFoc[2]);
-                window.camera3D.SetViewUp(window.cameraView[0], window.cameraView[1], window.cameraView[2]);
                 window.SetPanels();
                 window.XLayer(0);
                 window.YLayer(0);

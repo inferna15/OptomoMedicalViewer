@@ -80,16 +80,6 @@
         
         <!--#region Panel Tuşları-->
         <Grid x:Name="TransversalGrid" Grid.Row="0" Grid.Column="0" Margin="20" Background="#4f7492">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="50"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
             <Button x:Name="TransversalMax"
                     Grid.Column="0"
                     Grid.Row="0"
@@ -245,7 +235,7 @@
                         BorderBrush="Transparent" 
                         BorderThickness="0"
                         Click="layerUp_Click"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/upArrow.png" Stretch="Uniform" Name="layerUpimg"/>
                 </RepeatButton>
 
@@ -267,7 +257,7 @@
                         BorderBrush="Transparent"
                         BorderThickness="0"
                         Click="layerDown_Click"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/downArrow.png" Stretch="Uniform" Name="layerDownimg"/>
                 </RepeatButton>
             </Grid>
@@ -291,7 +281,7 @@
                         BorderBrush="Transparent" 
                         BorderThickness="0"
                         Click="motionUp_Click"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/upArrow.png" Stretch="Uniform" Name="motionUpimg"/>
                 </RepeatButton>
                 <RepeatButton x:Name="motionDown"
@@ -301,7 +291,7 @@
                         BorderBrush="Transparent" 
                         BorderThickness="0"
                         Click="motionDown_Click"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/downArrow.png" Stretch="Uniform" Name="motionDownimg"/>
                 </RepeatButton>
                 <RepeatButton x:Name="motionLeft"
@@ -311,7 +301,7 @@
                         BorderBrush="Transparent" 
                         BorderThickness="0"
                         Click="motionLeft_Click"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/leftArrow.png" Stretch="Uniform" Name="motionLeftimg"/>
                 </RepeatButton>
                 <RepeatButton x:Name="motionRight"
@@ -321,7 +311,7 @@
                         BorderBrush="Transparent" 
                         BorderThickness="0"
                         Click="motionRight_Click"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/rightArrow.png" Stretch="Uniform" Name="motionRightimg"/>
                 </RepeatButton>
                 <RepeatButton Grid.Row="1"
@@ -329,7 +319,7 @@
                         Background="Transparent" 
                         BorderBrush="Transparent" 
                         BorderThickness="0"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/centerArrow.png" Stretch="Uniform" Name="centerimg"/>
                 </RepeatButton>
             </Grid>
@@ -354,7 +344,7 @@
                         BorderBrush="Transparent" 
                         BorderThickness="0"
                         Click="zoomDown_Click"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/minuse.png" Stretch="Uniform" x:Name="zoomDownimg"/>
                 </RepeatButton>
                 <RepeatButton x:Name="zoomUp"
@@ -364,7 +354,7 @@
                         BorderBrush="Transparent" 
                         BorderThickness="0"
                         Click="zoomUp_Click"
-                        Interval="100">
+                        Interval="20">
                     <Image Source="Assets/plus.png" Stretch="Uniform" x:Name="zoomUpimg"/>
                 </RepeatButton>
                 <Slider x:Name="zoomSlider"

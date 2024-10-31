@@ -7,7 +7,6 @@ namespace Optomo
     public partial class ImagingWindow : Window
     {
         #region Değişkenler
-        private int isStart = 0;
         private TouchScreenWindow touchScreenWindow;
         private string path;
         public int[] extent = new int[6];
@@ -18,6 +17,7 @@ namespace Optomo
         public vtkImageReslice[] reslices = new vtkImageReslice[3];
         public vtkImageMapper[] mappers = new vtkImageMapper[3];
         public vtkRenderer[] renderers = new vtkRenderer[4];
+        public RenderWindowControl[] windows = new RenderWindowControl[4];
         public vtkDICOMImageReader reader;
         public vtkLineSource[] lines2D = new vtkLineSource[6];
         public double[,,] linePos2D = new double[6, 2, 2];
@@ -30,12 +30,7 @@ namespace Optomo
         public int[] offsets = new int[3];
         public int[] motions = new int[3];
         public double[] zooms = new double[3];
-        public vtkCamera camera3D;
-        public double[] cameraPos = new double[3];
-        public double[] cameraFoc = new double[3];
-        public double[] cameraView = new double[3];
         public vtkColorTransferFunction color3D;
-        private LoadingControl _loadingControl;
         #endregion
 
         public ImagingWindow(TouchScreenWindow touchScreenWindow, string path)
@@ -47,9 +42,9 @@ namespace Optomo
             Y_Slice.SizeChanged += SliceSizeChanged;
             X_Slice.SizeChanged += SliceSizeChanged;
             Z_Slice.SizeChanged += SliceSizeChanged;
-            zooms[0]++;
-            zooms[1]++;
-            zooms[2]++;
+            zooms[0] = 1;
+            zooms[1] = 1;
+            zooms[2] = 1;
         }
 
         #region Başlangıç Fonksiyonları
@@ -70,7 +65,6 @@ namespace Optomo
             Init3DAxesLines();
             InitAspectTexts();
             SetPanels();
-            RenderAll();
         }
 
         private void ReadDicom(string path)
@@ -92,13 +86,14 @@ namespace Optomo
 
         private void InitYReslice(vtkAlgorithmOutput output)
         {
+            
             var renderWindowControl = new RenderWindowControl();
+            windows[1] = renderWindowControl;
 
             renderWindowControl.Load += (sender, args) =>
             {
                 vtkImageReslice reslice = new vtkImageReslice();
                 reslice.SetInputConnection(output);
-                reslice.SetOutputDimensionality(2);
                 reslice.SetResliceAxesDirectionCosines(1, 0, 0, 0, 0, 1, 0, 1, 0);
                 reslice.SetResliceAxesOrigin(center[0], center[1], center[2]);
 
@@ -120,7 +115,6 @@ namespace Optomo
                 renderers[1].SetBackground(0.0, 0.0, 0.0);
 
                 renderWindowControl.RenderWindow.AddRenderer(renderers[1]);
-                renderWindowControl.RenderWindow.SetMultiSamples(0);
             };
             Y_Slice.Child = renderWindowControl;
         }
@@ -128,12 +122,12 @@ namespace Optomo
         private void InitXReslice(vtkAlgorithmOutput output)
         {
             var renderWindowControl = new RenderWindowControl();
+            windows[0] = renderWindowControl;
 
             renderWindowControl.Load += (sender, args) =>
             {
                 vtkImageReslice reslice = new vtkImageReslice();
                 reslice.SetInputConnection(output);
-                reslice.SetOutputDimensionality(2);
                 reslice.SetResliceAxesDirectionCosines(0, 1, 0, 0, 0, 1, 1, 0, 0);
                 reslice.SetResliceAxesOrigin(center[0], center[1], center[2]);
 
@@ -155,7 +149,6 @@ namespace Optomo
                 renderers[0].SetBackground(0.0, 0.0, 0.0);
 
                 renderWindowControl.RenderWindow.AddRenderer(renderers[0]);
-                renderWindowControl.RenderWindow.SetMultiSamples(0);
             };
             X_Slice.Child = renderWindowControl;
         }
@@ -163,12 +156,12 @@ namespace Optomo
         private void InitZReslice(vtkAlgorithmOutput output)
         {
             var renderWindowControl = new RenderWindowControl();
+            windows[2] = renderWindowControl;
 
             renderWindowControl.Load += (sender, args) =>
             {
                 vtkImageReslice reslice = new vtkImageReslice();
                 reslice.SetInputConnection(output);
-                reslice.SetOutputDimensionality(2);
                 reslice.SetResliceAxesDirectionCosines(1, 0, 0, 0, 1, 0, 0, 0, 1);
                 reslice.SetResliceAxesOrigin(center[0], center[1], center[2]);
 
@@ -190,7 +183,6 @@ namespace Optomo
                 renderers[2].SetBackground(0.0, 0.0, 0.0);
 
                 renderWindowControl.RenderWindow.AddRenderer(renderers[2]);
-                renderWindowControl.RenderWindow.SetMultiSamples(0);
             };
             Z_Slice.Child = renderWindowControl;
         }
@@ -198,23 +190,27 @@ namespace Optomo
         private void Init3D(vtkAlgorithmOutput output)
         {
             var renderWindowControl = new Kitware.VTK.RenderWindowControl();
+            windows[3] = renderWindowControl;
 
             renderWindowControl.Load += (sender, args) =>
             {
                 vtkSmartVolumeMapper volumeMapper = new vtkSmartVolumeMapper();
                 volumeMapper.SetInputConnection(output);
+                volumeMapper.SetRequestedRenderModeToGPU();  // GPU Render Mode
 
                 vtkColorTransferFunction volumeColor = new vtkColorTransferFunction();
-                volumeColor.AddRGBPoint(0, 0.0, 0.0, 1.0);
+                volumeColor.AddRGBPoint(0, 0.0, 0.0, 0.0);
                 volumeColor.AddRGBPoint(200, 0.0, 1.0, 0.0);
-                volumeColor.AddRGBPoint(1000, 1.0, 0.0, 0.0);
+                volumeColor.AddRGBPoint(600, 1.0, 0.0, 0.5);
+                volumeColor.AddRGBPoint(1000, 0.0, 1.0, 0.0);
                 color3D = volumeColor;
 
                 vtkPiecewiseFunction volumeOpacity = new vtkPiecewiseFunction();
                 volumeOpacity.AddPoint(0, 0.0);
-                volumeOpacity.AddPoint(100, 0.02);
-                volumeOpacity.AddPoint(200, 0.05);
-                volumeOpacity.AddPoint(1000, 0.2);
+                volumeOpacity.AddPoint(100, 0.0001);
+                volumeOpacity.AddPoint(200, 0.01);
+                volumeOpacity.AddPoint(600, 0.2);
+                volumeOpacity.AddPoint(1000, 0.01);
 
                 vtkVolumeProperty volumeProperty = new vtkVolumeProperty();
                 volumeProperty.SetColor(volumeColor);
@@ -222,34 +218,30 @@ namespace Optomo
                 volumeProperty.ShadeOn();
                 volumeProperty.SetInterpolationTypeToLinear();
 
-                // Işık ayarları
-                volumeProperty.SetSpecular(0.6);  // Yansıma seviyesi
-                volumeProperty.SetSpecularPower(30); // Yansımanın yoğunluğu
-                volumeProperty.SetAmbient(0.3);   // Ortam ışığı
-                volumeProperty.SetDiffuse(0.9);   // Dağılma oranı
+                // Hız için ışık ayarları optimizasyonu
+                volumeProperty.SetSpecular(0.7);  // Yansıma seviyesi düşürüldü
+                volumeProperty.SetSpecularPower(60);  // Yansıma yoğunluğu azaltıldı
+                volumeProperty.SetAmbient(0.5);  // Ortam ışığı düşürüldü
+                volumeProperty.SetDiffuse(0.4);  // Dağılma oranı biraz azaltıldı
 
                 vtkVolume volume = new vtkVolume();
                 volume.SetMapper(volumeMapper);
                 volume.SetProperty(volumeProperty);
-                
 
                 renderers[3] = new vtkRenderer();
                 renderers[3].AddVolume(volume);
                 renderers[3].SetBackground(0.0, 0.0, 0.0);
 
-                camera3D = new vtkCamera();
-                camera3D = renderers[3].GetActiveCamera();
-                
-                cameraPos = camera3D.GetPosition();
-                cameraFoc = camera3D.GetFocalPoint();
-                cameraView = camera3D.GetViewUp();
-
                 renderers[3].ResetCamera();
 
+                // Renderer ekleniyor
                 renderWindowControl.RenderWindow.AddRenderer(renderers[3]);
-                renderWindowControl.RenderWindow.SetMultiSamples(0);
-                renderWindowControl.RenderWindow.Render();
+                renderWindowControl.RenderWindow.SetMultiSamples(0);  // Anti-aliasing kapalı
+
+                renderWindowControl.RenderWindow.LineSmoothingOff();
+                renderWindowControl.RenderWindow.PolygonSmoothingOff();
             };
+
             ThreeD.Child = renderWindowControl;
         }
 
@@ -561,39 +553,50 @@ namespace Optomo
 
         public void RenderAll()
         {
-            Y_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Y_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(Y_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Y_Slice.Child), null);
-            X_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(X_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(X_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(X_Slice.Child), null);
-            Z_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Z_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(Z_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Z_Slice.Child), null);
-            ThreeD.Child.GetType().GetProperty("RenderWindow")?.GetValue(ThreeD.Child)?.GetType().GetMethod("Render")?.Invoke(ThreeD.Child.GetType().GetProperty("RenderWindow")?.GetValue(ThreeD.Child), null);
+            windows[0]?.RenderWindow.Render();
+            windows[1]?.RenderWindow.Render();
+            windows[2]?.RenderWindow.Render();
+            Render3D();
         }
 
         public void RenderReslices(int i = 3)
         {
             if (i == 0)
             {
-                X_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(X_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(X_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(X_Slice.Child), null);
+                //X_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(X_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(X_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(X_Slice.Child), null);
+                windows[0]?.RenderWindow.Render();
             }
             else if (i == 1)
             {
-                Y_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Y_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(Y_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Y_Slice.Child), null);
+                //Y_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Y_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(Y_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Y_Slice.Child), null);
+                windows[1]?.RenderWindow.Render();
             }
             else if (i == 2)
             {
-                Z_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Z_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(Z_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Z_Slice.Child), null);
+                //Z_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Z_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(Z_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Z_Slice.Child), null);
+                windows[2]?.RenderWindow.Render();
             }
             else
             {
+                /*
                 Y_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Y_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(Y_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Y_Slice.Child), null);
                 X_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(X_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(X_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(X_Slice.Child), null);
                 Z_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Z_Slice.Child)?.GetType().GetMethod("Render")?.Invoke(Z_Slice.Child.GetType().GetProperty("RenderWindow")?.GetValue(Z_Slice.Child), null);
+                */
+                windows[0]?.RenderWindow.Render();
+                windows[1]?.RenderWindow.Render();
+                windows[2]?.RenderWindow.Render();
             }
         }
 
-        public async void Render3D()
+        public void Render3D()
         {
-            ThreeD.Child.GetType().GetProperty("RenderWindow")?.GetValue(ThreeD.Child)?.GetType().GetMethod("Render")?.Invoke(ThreeD.Child.GetType().GetProperty("RenderWindow")?.GetValue(ThreeD.Child), null);
+            windows[3]?.RenderWindow.Render();
         }
+
+
         #endregion
+
 
         private void SliceSizeChanged(object sender, EventArgs e)
         {
@@ -787,7 +790,6 @@ namespace Optomo
                     RenderReslices(2);
                 }
             }
-            camera3D.SetFocalPoint(layers[0] * spacing[0], layers[1] * spacing[1], layers[2] * spacing[2]);
         }
 
         public void YLayerMotion(int isUp)
@@ -816,7 +818,6 @@ namespace Optomo
                     RenderReslices(2);
                 }
             }
-            camera3D.SetFocalPoint(layers[0] * spacing[0], layers[1] * spacing[1], layers[2] * spacing[2]);
         }
 
         public void ZLayerMotion(int isUp)
@@ -845,7 +846,6 @@ namespace Optomo
                     RenderReslices(2);
                 }
             }
-            camera3D.SetFocalPoint(layers[0] * spacing[0], layers[1] * spacing[1], layers[2] * spacing[2]);
         }
         #endregion
     }
