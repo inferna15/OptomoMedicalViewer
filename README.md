@@ -5,5 +5,5 @@
 Kontrol paneli sayesinde kesitsel görüntüler üzerinde katman değişimi, 4 yönde hareket ve zoom işlemleri yapılabiliyor ve istediğimizde seçili paneli tam ekran hale getirebiliyoruz.</p>
 <br>
 <h2>Resimler</h2>
-<img src="https://github.com/user-attachments/assets/c5d85c01-1b36-4595-91ab-2c48c97da381" height=600/>
-<img src="https://github.com/user-attachments/assets/0f24a50b-6f9b-422a-8b53-01c3c68c0584" height=600/>
+<img src="https://github.com/user-attachments/assets/c5d85c01-1b36-4595-91ab-2c48c97da381" width=800/>
+<img src="https://github.com/user-attachments/assets/0f24a50b-6f9b-422a-8b53-01c3c68c0584" width=800/>
